@@ -1,8 +1,7 @@
 export const BRAND_NAME = "BroilChef";
 
 export const ACCESS_LEVELS = {
-    '0000': { id: 'TIER_1', name: 'MSRP', multiplier: 1.0 },
-    '60off': { id: 'TIER_4', name: 'Dealer', multiplier: 0.4 },
+    '0000': { id: 'TIER_DEALER', name: 'Dealer', multiplier: 0.4 },
 };
 
 export const EXCHANGE_RATES = {

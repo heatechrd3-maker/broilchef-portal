@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ShoppingCart, Package, Truck, X, FileSpreadsheet, Send, ChevronRight, Plus, Trash2, Layers, ArrowRight, ArrowLeft, DollarSign, ArrowUpDown, List } from 'lucide-react';
+import { ShoppingCart, Package, Truck, X, FileSpreadsheet, Send, ChevronRight, Plus, Trash2, Layers, ArrowRight, ArrowLeft, DollarSign, ArrowUpDown, List, Lock, LogIn } from 'lucide-react';
 
 import {
   BRAND_NAME,
@@ -12,11 +12,13 @@ import {
 } from './data';
 
 const App = () => {
-  const t = TRANSLATIONS.en; // Force English translation
+  const t = TRANSLATIONS.en;
 
-  // Bypass Login & Pricing State
-  // Defaulting to "MSRP" pricing tier with no login wall
-  const [userTier, setUserTier] = useState(ACCESS_LEVELS['0000']);
+  // Login & Pricing State
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [inputPassword, setInputPassword] = useState('');
+  const [loginError, setLoginError] = useState(false);
+  const [userTier, setUserTier] = useState(null);
   const [currency, setCurrency] = useState('USD');
 
   const [currentCategory, setCurrentCategory] = useState('all');
@@ -45,6 +47,20 @@ const App = () => {
     phone: '',
     address: ''
   });
+
+  // 登入驗證
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const tier = ACCESS_LEVELS[inputPassword];
+
+    if (tier) {
+      setUserTier(tier);
+      setIsLoggedIn(true);
+      setLoginError(false);
+    } else {
+      setLoginError(true);
+    }
+  };
 
   // Helper: Get Price based on Currency and Tier
   const getPrice = (basePrice) => {
@@ -254,6 +270,51 @@ const App = () => {
     setCart([]);
   };
 
+  // === RENDER LOGIN SCREEN ===
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-4">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 transform transition-all">
+          <div className="text-center mb-8">
+            <div className="bg-[#4a9d8f] w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 text-white">
+              <Lock size={32} />
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900">{BRAND_NAME}</h1>
+            <p className="text-gray-500 font-medium mt-1">{t.loginTitle}</p>
+            <p className="text-xs text-gray-400 mt-2 px-4">{t.loginSubtitle}</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <input
+                type="password"
+                autoFocus
+                value={inputPassword}
+                onChange={(e) => setInputPassword(e.target.value)}
+                placeholder={t.passwordPlaceholder}
+                className={`w-full text-center text-lg tracking-widest border-2 rounded-xl p-3 outline-none transition-colors
+                  ${loginError ? 'border-red-300 bg-red-50 focus:border-red-500' : 'border-gray-200 focus:border-[#4a9d8f]'}
+                `}
+              />
+              {loginError && (
+                <p className="text-xs text-red-500 text-center mt-2">
+                  {t.loginError}
+                </p>
+              )}
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-slate-900 text-white font-bold py-3.5 rounded-xl hover:bg-slate-800 transition-transform active:scale-95 flex items-center justify-center gap-2"
+            >
+              {t.loginBtn}
+              <LogIn size={18} />
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   // === RENDER MAIN APP ===
   return (
     <div className="min-h-screen bg-gray-50 text-slate-800 font-sans">
@@ -285,22 +346,6 @@ const App = () => {
               </select>
             </div>
 
-            {/* Added Pricing Tier Selector */}
-            <div className="hidden md:flex items-center gap-2 bg-slate-800 px-2 py-1 rounded-lg border border-slate-700">
-              <select
-                value={userTier.id}
-                onChange={(e) => {
-                  const selectedLevel = Object.values(ACCESS_LEVELS).find(lvl => lvl.id === e.target.value);
-                  if (selectedLevel) setUserTier(selectedLevel);
-                }}
-                className="bg-transparent text-xs text-white font-medium focus:outline-none cursor-pointer"
-              >
-                {Object.values(ACCESS_LEVELS).map(tier => (
-                  <option key={tier.id} value={tier.id} className="bg-slate-800">{tier.name}</option>
-                ))}
-              </select>
-            </div>
-
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative p-2 hover:bg-slate-800 rounded-full transition-colors"
@@ -328,8 +373,8 @@ const App = () => {
                   key={cat.id}
                   onClick={() => setCurrentCategory(cat.id)}
                   className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-between ${currentCategory === cat.id
-                      ? 'bg-[#9ed9cf]/20 text-[#1f4740] border border-[#9ed9cf]/50'
-                      : 'text-gray-600 hover:bg-gray-50'
+                    ? 'bg-[#9ed9cf]/20 text-[#1f4740] border border-[#9ed9cf]/50'
+                    : 'text-gray-600 hover:bg-gray-50'
                     }`}
                 >
                   {cat.name}
@@ -360,18 +405,6 @@ const App = () => {
           >
             {Object.keys(EXCHANGE_RATES).map(curr => (
               <option key={curr} value={curr}>{curr}</option>
-            ))}
-          </select>
-          <select
-            value={userTier.id}
-            onChange={(e) => {
-              const selectedLevel = Object.values(ACCESS_LEVELS).find(lvl => lvl.id === e.target.value);
-              if (selectedLevel) setUserTier(selectedLevel);
-            }}
-            className="w-24 p-2 border border-gray-300 rounded-lg text-sm bg-white"
-          >
-            {Object.values(ACCESS_LEVELS).map(tier => (
-              <option key={tier.id} value={tier.id}>{tier.name}</option>
             ))}
           </select>
         </div>
