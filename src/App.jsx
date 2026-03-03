@@ -27,7 +27,7 @@ const App = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Sorting State
-  const [sortOrder, setSortOrder] = useState('default'); // 'default', 'asc', 'desc', 'inStock'
+  const [sortOrder, setSortOrder] = useState('inStock'); // 'asc', 'desc', 'inStock'
 
   // Container State
   const [containers, setContainers] = useState(DEFAULT_CONTAINERS);
@@ -254,8 +254,6 @@ const App = () => {
     orderData.items.forEach(row => {
       csvContent += `${safeStr(row.id)},${safeStr(row.name)},${safeStr(row.salesPrice)},${safeStr(row.qty)},${safeStr(row.total)},${safeStr(row.cbm)}\n`;
     });
-
-    // Align Summaries in correct columns (Empty fields for 1-3, Values in 4-6)
     csvContent += `\n"","","","Total",${safeStr(formatPriceStr(cartSummary.totalPrice))},${safeStr(cartSummary.totalCBM.toFixed(2))}\n`;
     csvContent += `"","","","Container Load",${safeStr(cartSummary.containerLoad.toFixed(2) + '%')},${safeStr('(' + containerQty + ' x ' + selectedContainer.name + ')')}\n`;
 
@@ -266,6 +264,38 @@ const App = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    // --- SEND EMAIL NOTIFICATION ---
+    // Webhook for Formsubmit.co - change to target email address
+    const targetEmail = "YOUR_DESIGNATED_EMAIL@example.com";
+
+    try {
+      const formData = new FormData();
+      formData.append("name", customerInfo.company);
+      formData.append("email", customerInfo.email); // Set to customer's email so replying goes to them
+      formData.append("_subject", `New Order Quotation: ${customerInfo.company}`);
+      formData.append("_captcha", "false"); // Disable captcha for smooth API submission
+
+      // Email Body content
+      formData.append("Contact", customerInfo.contact);
+      formData.append("Phone", customerInfo.phone);
+      formData.append("Total Amount", formatPriceStr(cartSummary.totalPrice));
+
+      // Convert CSV string to File Blob and attach it
+      const rawCsv = csvContent.replace("data:text/csv;charset=utf-8,\\uFEFF", "\\uFEFF");
+      const blob = new Blob([rawCsv], { type: "text/csv;charset=utf-8;" });
+      const file = new File([blob], `${orderData.company}_Order_${orderData.orderId}.csv`, { type: "text/csv" });
+      formData.append("attachment", file);
+
+      await fetch(`https://formsubmit.co/ajax/${targetEmail}`, {
+        method: "POST",
+        body: formData
+      });
+    } catch (e) {
+      console.error("Failed to send email", e);
+    }
+    // -------------------------------
+
     setShowSuccessModal(true);
     setCart([]);
   };
@@ -558,10 +588,9 @@ const App = () => {
                 onChange={(e) => setSortOrder(e.target.value)}
                 className="border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:border-[#4a9d8f] bg-white cursor-pointer"
               >
-                <option value="default">{t.default}</option>
+                <option value="inStock">{t.inStockSort}</option>
                 <option value="asc">{t.priceLowHigh}</option>
                 <option value="desc">{t.priceHighLow}</option>
-                <option value="inStock">{t.inStockSort}</option>
               </select>
             </div>
           </div>

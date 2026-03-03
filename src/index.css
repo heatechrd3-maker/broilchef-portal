@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+html {
+    /* Scale root font from 16px to 20px smoothly across viewport widths */
+    font-size: clamp(16px, 1vw + 12px, 20px);
+}
