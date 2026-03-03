@@ -1,7 +1,7 @@
 export const BRAND_NAME = "BroilChef";
 
 export const ACCESS_LEVELS = {
-    '0000': { id: 'TIER_DEALER', name: 'Dealer', multiplier: 0.4 },
+    '60off': { id: 'TIER_DEALER', name: 'Dealer', multiplier: 0.4 },
 };
 
 export const EXCHANGE_RATES = {
@@ -101,7 +101,7 @@ export const CATEGORIES = [
 
 export const PRODUCTS = [
     {
-        id: 'Paramount BC-540 BBS',
+        id: 'BC-540 BBS',
         category: 'freestanding',
         name: 'Broilchef Paramount BC-540 BBS 6 Burner Liquid Propane BBQ Grill with Infrared Side and Rear Burner',
         image: 'https://img1.wsimg.com/isteam/ip/66e93b34-ef58-4b44-93a5-6461046f5f64/BC540-BBS-e39980b.png/:/cr=t:0.04%25,l:0%25,w:100%25,h:99.93%25/rs=w:388,h:388,cg:true',
@@ -113,7 +113,7 @@ export const PRODUCTS = [
         caStock: false
     },
     {
-        id: 'Paramount BC-540 SBS',
+        id: 'BC-540 SBS',
         category: 'freestanding',
         name: 'Broilchef Paramount BC-540 SBS 6 Burner Liquid Propane BBQ Grill with Infrared Side and Rear Burner',
         image: 'https://img1.wsimg.com/isteam/ip/66e93b34-ef58-4b44-93a5-6461046f5f64/blob-089b567.png/:/cr=t:10.36%25,l:20.74%25,w:58.02%25,h:73.53%25/rs=w:388,h:388,cg:true,m',
@@ -125,7 +125,7 @@ export const PRODUCTS = [
         caStock: false
     },
     {
-        id: 'Paramount BC-430 BBS',
+        id: 'BC-430 BBS',
         category: 'freestanding',
         name: 'Broilchef Paramount BC-430 BBS 5 Burner Liquid Propane BBQ Grill with Infrared Side and Rear Burner',
         image: 'https://img1.wsimg.com/isteam/ip/66e93b34-ef58-4b44-93a5-6461046f5f64/BC-540%E7%83%A4%E7%B6%B2.16.png/:/cr=t:0%25,l:21.88%25,w:56.25%25,h:100%25/rs=w:1280,h:1280',
@@ -137,7 +137,7 @@ export const PRODUCTS = [
         caStock: false
     },
     {
-        id: 'Paramount BC-430 SBS',
+        id: 'BC-430 SBS',
         category: 'freestanding',
         name: 'Broilchef Paramount BC-430 SBS 5 Burner Liquid Propane BBQ Grill with Infrared Side and Rear Burner',
         image: 'https://img1.wsimg.com/isteam/ip/66e93b34-ef58-4b44-93a5-6461046f5f64/BC430.png/:/cr=t:0%25,l:3.79%25,w:92.41%25,h:100%25/rs=w:360,h:360,cg:true',
@@ -149,7 +149,7 @@ export const PRODUCTS = [
         caStock: false
     },
     {
-        id: 'Tahoe BC-2217B',
+        id: 'BC-2217B',
         category: 'freestanding',
         name: 'Broilchef Tahoe Freestanding 4 Burner Liquid Propane',
         image: 'https://img1.wsimg.com/isteam/ip/66e93b34-ef58-4b44-93a5-6461046f5f64/Italy%20Tahoe%20BC-2217.1-1a02095.png/:/rs=w:1280,h:1280',
@@ -161,7 +161,7 @@ export const PRODUCTS = [
         caStock: false
     },
     {
-        id: 'Tahoe BC-2217S',
+        id: 'BC-2217S',
         category: 'freestanding',
         name: 'Broilchef Tahoe Freestanding 4 Burner Liquid Propane',
         image: 'https://img1.wsimg.com/isteam/ip/66e93b34-ef58-4b44-93a5-6461046f5f64/Italy%20Tahoe%20BC-2217.21.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:360,h:360,cg:true',
@@ -173,7 +173,7 @@ export const PRODUCTS = [
         caStock: false
     },
     {
-        id: 'Tahoe BC-3017B',
+        id: 'BC-3017B',
         category: 'freestanding',
         name: 'Broilchef Tahoe Freestanding 5 Burner Liquid Propane',
         image: 'https://img1.wsimg.com/isteam/ip/66e93b34-ef58-4b44-93a5-6461046f5f64/1141211-Tahoe%20BC-3017.12.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:388,h:388,cg:true',
@@ -185,7 +185,7 @@ export const PRODUCTS = [
         caStock: false
     },
     {
-        id: 'Tahoe BC-3017S',
+        id: 'BC-3017S',
         category: 'freestanding',
         name: 'Broilchef Tahoe Freestanding 5 Burner Liquid Propane',
         image: 'https://img1.wsimg.com/isteam/ip/66e93b34-ef58-4b44-93a5-6461046f5f64/Italy%20Tahoe%20BC-3017S%20SB.png/:/cr=t:5.29%25,l:1.6%25,w:94.34%25,h:94.34%25/rs=w:1280,h:1280',
